@@ -1,8 +1,8 @@
 FROM i.anatase.org/base:rolling
 
 # Niri + Noctalia
-RUN dnf -y copr enable lionheartp/Hyprland \
-    && dnf clean all
+RUN . /etc/os-release && \
+    dnf -y copr enable lionheartp/Hyprland "fedora-${VERSION_ID}-$(arch)"
 
 RUN dnf -y --setopt=install_weak_deps=False install \
     niri \
