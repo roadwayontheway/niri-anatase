@@ -7,7 +7,7 @@ RUN dnf -y --setopt=install_weak_deps=False install \
     xwayland-satellite \
     brightnessctl \
     playerctl \
-    gdm \
+    greetd \
     Thunar \
     thunar-media-tags-plugin \
     thunar-volman \
@@ -33,8 +33,19 @@ RUN dnf -y --setopt=install_weak_deps=False install \
     xdg-user-dirs-gtk \
     && dnf clean all
 
-RUN systemctl enable gdm.service && \
+RUN . /etc/os-release && \
+    dnf -y copr enable lionheartp/Hyprland "fedora-${VERSION_ID}-$(arch)" \
+    dnf -y install noctalia-greeter-git \
+    && dnf clean all
+
+RUN systemctl enable greetd.service && \
     systemctl set-default graphical.target
+
+// Copy and run Noctali-greeter to niri
+COPY config/greetd/config.toml /etc/greetd/config.toml
+
+// Creates a systemwide config for Niri and start Noctalia
+COPY config/niri/config.kdl /etc/niri/config.kdl
 
 # Cleanup (leave this here)
 RUN rm -rf /var && \
