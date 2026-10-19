@@ -33,6 +33,7 @@ RUN dnf -y --setopt=install_weak_deps=False install \
     xdg-user-dirs-gtk \
     && dnf clean all
 
+# Installs Noctalia-greeter
 RUN . /etc/os-release && \
     dnf -y copr enable lionheartp/Hyprland "fedora-${VERSION_ID}-$(arch)" && \
     dnf -y install noctalia-greeter-git && \
@@ -41,10 +42,10 @@ RUN . /etc/os-release && \
 RUN systemctl enable greetd.service && \
     systemctl set-default graphical.target
 
-// Copy and run Noctali-greeter to niri
+# Copy and run Noctali-greeter to niri
 COPY config/greetd/config.toml /etc/greetd/config.toml
 
-// Creates a systemwide config for Niri and start Noctalia
+# Creates a systemwide config for Niri and start Noctalia
 COPY config/niri/config.kdl /etc/niri/config.kdl
 
 # Cleanup (leave this here)
