@@ -34,9 +34,9 @@ RUN dnf -y --setopt=install_weak_deps=False install \
     && dnf clean all
 
 RUN . /etc/os-release && \
-    dnf -y copr enable lionheartp/Hyprland "fedora-${VERSION_ID}-$(arch)" \
-    dnf -y install noctalia-greeter-git \
-    && dnf clean all
+    dnf -y copr enable lionheartp/Hyprland "fedora-${VERSION_ID}-$(arch)" && \
+    dnf -y install noctalia-greeter-git && \
+    dnf clean all
 
 RUN systemctl enable greetd.service && \
     systemctl set-default graphical.target
